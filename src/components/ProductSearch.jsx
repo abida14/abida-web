@@ -1,9 +1,11 @@
-'use client';
+"use client"; // For Next.js Client Component
 
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { useCart } from "@/context/CartContext"; // Import the context
 
 const ProductSearch = ({ products }) => {
   const [searchTerm, setSearchTerm] = useState('');
+  const { addToCart } = useCart(); // Access the addToCart function
 
   const filteredProducts = products.filter((product) =>
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -27,7 +29,7 @@ const ProductSearch = ({ products }) => {
       </div>
 
       {/* Product Grid */}
-      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid gap-6 grid-cols-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {filteredProducts.length > 0 ? (
           filteredProducts.map((product) => (
             <div
@@ -44,8 +46,11 @@ const ProductSearch = ({ products }) => {
               <h3 className="text-md font-semibold text-gray-800 mb-1">{product.name}</h3>
               <p className="text-blue-600 font-bold text-sm mb-3">${product.price.toFixed(2)}</p>
 
-              {/* Nice Add to Cart Button */}
-              <button className="bg-blue-500 hover:bg-blue-600 text-black text-sm px-4 py-2 rounded-md transition">
+              {/* Add to Cart Button */}
+              <button
+                className="bg-blue-500 hover:bg-blue-600 text-black text-sm px-4 py-2 rounded-md transition"
+                onClick={() => addToCart(product)} // Add product to cart
+              >
                 🛍 Add to Cart
               </button>
             </div>
